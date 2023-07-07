@@ -26,3 +26,18 @@ paths:
                     example: ok
         '500':
           description: There was an internal server error
+  /hello:
+    get:
+      summary: Say Hello
+      description: A simple string saying 'Hello, World!'
+      operationId: sayHello
+      responses:
+        '200':
+          description: OK
+          content: 
+            text/plain:
+              schema:
+                type: string
+                example: Hello, World!
+        '500':
+          description: There was an internal server error

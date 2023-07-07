@@ -63,14 +63,25 @@ public class MainVerticle extends AbstractVerticle {
         final String host = aConfig.getString(Config.HTTP_HOST, INADDR_ANY);
         final int port = aConfig.getInteger(Config.HTTP_PORT, 8888);
 
-        RouterBuilder.create(vertx, getRouterSpec()).onFailure(aPromise::fail).onSuccess(routeBuilder -> {
+        RouterBuilder.create(vertx, getRouterSpec()).onFailure(error -> {
+            LOGGER.error(error);
+            aPromise.fail(error);
+        }).onSuccess(routeBuilder -> {
             final HttpServerOptions serverOptions = new HttpServerOptions().setPort(port).setHost(host);
 
             // Associate handlers with operation IDs from the application's OpenAPI specification
             routeBuilder.operation(Op.GET_STATUS.id()).handler(new StatusHandler(getVertx()));
+            routeBuilder.operation(Op.SAY_HELLO.id()).handler(new HelloHandler(getVertx()).failureHandler(ctx -> {
+            LOGGER.info("Error handler is in the action.");
+            ctx.response().setStatusCode(ctx.statusCode()).end("Error occurred in method");
+        }));
+
 
             myServer = getVertx().createHttpServer(serverOptions).requestHandler(routeBuilder.createRouter());
-            myServer.listen().onFailure(aPromise::fail).onSuccess(result -> {
+            myServer.listen().onFailure(error -> {
+                LOGGER.error(error);
+                aPromise.fail(error);
+            }).onSuccess(result -> {
                 LOGGER.info(MessageCodes.CODE_001, port);
                 aPromise.complete();
             });
