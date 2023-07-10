@@ -71,10 +71,10 @@ public class MainVerticle extends AbstractVerticle {
 
             // Associate handlers with operation IDs from the application's OpenAPI specification
             routeBuilder.operation(Op.GET_STATUS.id()).handler(new StatusHandler(getVertx()));
-            routeBuilder.operation(Op.SAY_HELLO.id()).handler(new HelloHandler(getVertx()).failureHandler(ctx -> {
+            routeBuilder.operation(Op.SAY_HELLO.id()).handler(new HelloHandler(getVertx())).failureHandler(ctx -> {
             LOGGER.info("Error handler is in the action.");
             ctx.response().setStatusCode(ctx.statusCode()).end("Error occurred in method");
-        }));
+        });
 
 
             myServer = getVertx().createHttpServer(serverOptions).requestHandler(routeBuilder.createRouter());

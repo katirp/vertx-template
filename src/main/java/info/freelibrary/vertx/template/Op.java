@@ -9,6 +9,9 @@ public enum Op {
     /** An operation for the status functionality. */
     GET_STATUS("getStatus", "/status");
 
+    /** An operation for the hello functionality. */
+    SAY_HELLO("sayHello", "/hello");
+
     /** An operation's ID. */
     private String myID;
 
