@@ -1,16 +1,10 @@
 
 package info.freelibrary.vertx.template.handlers;
 
-import static info.freelibrary.vertx.template.MediaType.APPLICATION_JSON;
-
 import info.freelibrary.util.HTTP;
-
-import info.freelibrary.vertx.template.JsonKeys;
-
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpHeaders;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.RoutingContext;
 
 /**
@@ -26,7 +20,7 @@ public class HelloHandler implements Handler<RoutingContext> {
      *
      * @param aVertx A Vert.x instance
      */
-    public StatusHandler(final Vertx aVertx) {
+    public HelloHandler(final Vertx aVertx) {
         myVertx = aVertx;
     }
 
